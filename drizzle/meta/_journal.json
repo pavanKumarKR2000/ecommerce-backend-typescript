@@ -29,6 +29,27 @@
       "when": 1749813808176,
       "tag": "0003_cheerful_golden_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1749875361477,
+      "tag": "0004_dry_felicia_hardy",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1749880102536,
+      "tag": "0005_soft_slayback",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1749880846692,
+      "tag": "0006_faulty_phantom_reporter",
+      "breakpoints": true
     }
   ]
 }
