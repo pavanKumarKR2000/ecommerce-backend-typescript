@@ -1,9 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { usersTable } from "../db/user.schema.js";
-import { db } from "../db/index.js";
 import { eq } from "drizzle-orm";
-import { JWTPayload } from "../types/index.js";
+import { NextFunction, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { db } from "../db/index.js";
+import { userTable } from "../db/user.schema.js";
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -29,8 +28,8 @@ export const authenticateToken = async (
 
       const [currentUser] = await db
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.id, Number(userId)));
+        .from(userTable)
+        .where(eq(userTable.id, Number(userId)));
 
       req.user = { id: Number(userId), role: currentUser.role as string };
 

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { db } from "../db/index.js";
-import { productsTable } from "../db/product.schema.js";
+import { productTable } from "../db/product.schema.js";
 const seedProducts = [
   {
     name: "Tshirt",
@@ -63,7 +63,7 @@ export const seedDB = async () => {
   try {
     // await db.insert(usersTable).values(seedUsers);
 
-    await db.insert(productsTable).values(seedProducts);
+    await db.insert(productTable).values(seedProducts);
     console.log("database seeded successfully!");
   } catch (error) {
     console.log(error);

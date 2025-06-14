@@ -1,21 +1,38 @@
 import { Request, Response } from "express";
 import { db } from "../db/index.js";
-import { productsTable } from "../db/product.schema.js";
+import { productTable } from "../db/product.schema.js";
 import { eq } from "drizzle-orm";
 
 export const createProduct = async (req: Request, res: Response) => {
   const { name, description, price, inStock, category, image } = req.body;
 
-  res.status(200).json({
-    success: true,
-    message: "Product created successfully!",
-    data: null,
-  });
+  try {
+    const [product] = await db
+      .insert(productTable)
+      .values({
+        name,
+        description,
+        price,
+        inStock,
+        category,
+        image,
+      })
+      .returning();
+    res.status(200).json({
+      success: true,
+      message: "Product created successfully",
+      data: product,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ success: false, message: "Internal server error", data: null });
+  }
 };
 
 export const getProducts = async (_: Request, res: Response) => {
   try {
-    const products = await db.select().from(productsTable);
+    const products = await db.select().from(productTable);
     res.status(200).json({ success: true, message: "", data: products });
   } catch (error) {
     res
@@ -30,8 +47,8 @@ export const getProduct = async (req: Request, res: Response) => {
   try {
     const [product] = await db
       .select()
-      .from(productsTable)
-      .where(eq(productsTable.id, Number(id)));
+      .from(productTable)
+      .where(eq(productTable.id, Number(id)));
 
     if (!product) {
       res.status(404).json({
@@ -55,9 +72,9 @@ export const updateProduct = async (req: Request, res: Response) => {
 
   try {
     const [product] = await db
-      .update(productsTable)
+      .update(productTable)
       .set({ name, description, price, inStock, category, image })
-      .where(eq(productsTable.id, Number(id)))
+      .where(eq(productTable.id, Number(id)))
       .returning();
 
     if (!product) {
@@ -81,9 +98,27 @@ export const updateProduct = async (req: Request, res: Response) => {
 };
 
 export const deleteProduct = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
   try {
-    const products = await db.select().from(productsTable);
-    res.status(200).json({ success: true, message: "", data: products });
+    const [product] = await db
+      .delete(productTable)
+      .where(eq(productTable.id, Number(id)))
+      .returning();
+
+    if (!product) {
+      res.status(404).json({
+        success: false,
+        message: `Product with id ${id} does not exist`,
+        data: null,
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: `Product with id ${id} deleted successfully`,
+        data: null,
+      });
+    }
   } catch (error) {
     res
       .status(500)

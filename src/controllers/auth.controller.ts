@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { usersTable } from "../db/user.schema.js";
+import { userTable } from "../db/user.schema.js";
 import { db } from "../db/index.js";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
@@ -11,8 +11,8 @@ export const signUpController = async (req: Request, res: Response) => {
   try {
     const [existingUser] = await db
       .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, email));
+      .from(userTable)
+      .where(eq(userTable.email, email));
 
     if (existingUser) {
       res
@@ -22,7 +22,7 @@ export const signUpController = async (req: Request, res: Response) => {
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = { name, email, password: hashedPassword };
       console.log("new user", newUser);
-      const [a] = await db.insert(usersTable).values(newUser).returning();
+      const [a] = await db.insert(userTable).values(newUser).returning();
       const accessToken = jwt.sign({ userId: a.id }, process.env.JWT_SECRET!, {
         expiresIn: `${24 * 30}h`,
       });
@@ -56,8 +56,8 @@ export const signInController = async (req: Request, res: Response) => {
 
   const [existingUser] = await db
     .select()
-    .from(usersTable)
-    .where(eq(usersTable.email, email));
+    .from(userTable)
+    .where(eq(userTable.email, email));
 
   if (!existingUser) {
     res
