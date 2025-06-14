@@ -30,9 +30,48 @@ export const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-export const getProducts = async (_: Request, res: Response) => {
+export const getProducts = async (req: Request, res: Response) => {
   try {
-    const products = await db.select().from(productTable);
+    const { category, page = 1, limit = 10 } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+
+    let products;
+
+    if (!category) {
+      products = await db
+        .select()
+        .from(productTable)
+        .limit(Number(limit))
+        .offset(offset);
+    } else {
+      products = await db
+        .select()
+        .from(productTable)
+        .where(eq(productTable.category, category as string))
+        .limit(Number(limit))
+        .offset(offset);
+    }
+
+    res.status(200).json({ success: true, message: "", data: products });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Internal server error", data: null });
+  }
+};
+
+export const getFeaturedProducts = async (req: Request, res: Response) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+
+    const products = await db
+      .select()
+      .from(productTable)
+      .where(eq(productTable.featured, true))
+      .limit(Number(limit))
+      .offset(offset);
+
     res.status(200).json({ success: true, message: "", data: products });
   } catch (error) {
     res
