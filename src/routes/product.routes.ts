@@ -2,6 +2,7 @@ import express from "express";
 import {
   createProduct,
   deleteProduct,
+  getFeaturedProducts,
   getProduct,
   getProducts,
   updateProduct,
@@ -23,6 +24,8 @@ productRouter.post(
 );
 
 productRouter.get("/", authenticateToken, getProducts);
+
+productRouter.get("/featured-products", getFeaturedProducts);
 
 productRouter.get("/:id", authenticateToken, getProduct);
 
