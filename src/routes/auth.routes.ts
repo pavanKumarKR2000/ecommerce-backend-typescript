@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  getCurrentUser,
   logOutController,
   signInController,
   signUpController,
@@ -26,5 +27,7 @@ authRouter.post(
 );
 
 authRouter.post("/log-out", authenticateToken, logOutController);
+
+authRouter.get("/me", getCurrentUser);
 
 export default authRouter;

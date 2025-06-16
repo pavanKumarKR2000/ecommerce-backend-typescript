@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { db } from "../db/index.js";
 import { userTable } from "../db/user.schema.js";
+import { getToken } from "../lib/utils.js";
 
 declare module "express-serve-static-core" {
   interface Request {
@@ -15,8 +16,7 @@ export const authenticateToken = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = getToken(req);
 
   if (!token) {
     res
@@ -31,7 +31,7 @@ export const authenticateToken = async (
         .from(userTable)
         .where(eq(userTable.id, Number(userId)));
 
-      req.user = { id: Number(userId), role: currentUser.role as string };
+      req.user = { id: currentUser.id, role: currentUser.role as string };
 
       next();
     } catch (err) {
