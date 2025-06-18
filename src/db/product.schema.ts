@@ -22,7 +22,7 @@ export const productTable = pgTable("products", {
     .array()
     .notNull()
     .default(sql`ARRAY[]::text[]`),
-  featured: boolean().default(false),
+  isFeatured: boolean("is_featured").default(false),
   slug: text("slug"),
   createdAt: timestamp("created_at").defaultNow(),
 });

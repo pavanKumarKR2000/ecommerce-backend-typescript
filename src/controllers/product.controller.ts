@@ -4,7 +4,16 @@ import { productTable } from "../db/product.schema.js";
 import { eq } from "drizzle-orm";
 
 export const createProduct = async (req: Request, res: Response) => {
-  const { name, description, price, inStock, category, image } = req.body;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    category,
+    images,
+    isFeatured,
+    slug,
+  } = req.body;
 
   try {
     const [product] = await db
@@ -13,9 +22,11 @@ export const createProduct = async (req: Request, res: Response) => {
         name,
         description,
         price,
-        inStock,
+        stock,
         category,
-        image,
+        isFeatured,
+        images,
+        slug,
       })
       .returning();
     res.status(200).json({
@@ -68,7 +79,7 @@ export const getFeaturedProducts = async (req: Request, res: Response) => {
     const products = await db
       .select()
       .from(productTable)
-      .where(eq(productTable.featured, true))
+      .where(eq(productTable.isFeatured, true))
       .limit(Number(limit))
       .offset(offset);
 
@@ -107,12 +118,12 @@ export const getProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, description, price, inStock, category, image } = req.body;
+  const { name, description, price, stock, category, images } = req.body;
 
   try {
     const [product] = await db
       .update(productTable)
-      .set({ name, description, price, inStock, category, image })
+      .set({ name, description, price, stock, category, images })
       .where(eq(productTable.id, Number(id)))
       .returning();
 

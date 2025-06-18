@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { getToken } from "../lib/utils.js";
+import { cartTable } from "../db/cart.schema.js";
 
 export const signUpController = async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -24,6 +25,7 @@ export const signUpController = async (req: Request, res: Response) => {
       const newUser = { name, email, password: hashedPassword };
       console.log("new user", newUser);
       const [user] = await db.insert(userTable).values(newUser).returning();
+      await db.insert(cartTable).values({ userId: user.id });
       const accessToken = jwt.sign(
         { userId: user.id },
         process.env.JWT_SECRET!,

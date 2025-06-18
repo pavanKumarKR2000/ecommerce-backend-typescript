@@ -10,10 +10,10 @@ import { productTable } from "./product.schema";
 export const cartItemTable = pgTable("cartItems", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   cartId: integer("cart_id")
-    .references(() => cartTable.id)
+    .references(() => cartTable.id, { onDelete: "cascade" })
     .notNull(),
   productId: integer("product_id")
-    .references(() => productTable.id)
+    .references(() => productTable.id, { onDelete: "cascade" })
     .notNull(),
   quantity: integer().notNull(),
   total: doublePrecision().notNull(),

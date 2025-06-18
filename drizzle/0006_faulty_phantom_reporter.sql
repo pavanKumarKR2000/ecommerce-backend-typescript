@@ -1,1 +1,0 @@
-ALTER TABLE "products" ALTER COLUMN "rating" SET DATA TYPE real;
