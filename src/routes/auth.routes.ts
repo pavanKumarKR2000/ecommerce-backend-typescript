@@ -1,16 +1,16 @@
 import express from "express";
 import {
   getCurrentUser,
-  logOutController,
   signInController,
+  signOutController,
   signUpController,
 } from "../controllers/auth.controller.js";
+import { authenticateToken } from "../middlewares/auth.middleware.js";
 import { validateDataMiddleware } from "../middlewares/validateData.middleware.js";
 import {
   signInUserSchema,
   signUpUserSchema,
 } from "../validators/user.validator.js";
-import { authenticateToken } from "../middlewares/auth.middleware.js";
 
 const authRouter = express.Router();
 
@@ -26,7 +26,7 @@ authRouter.post(
   signInController,
 );
 
-authRouter.post("/log-out", authenticateToken, logOutController);
+authRouter.post("/sign-out", authenticateToken, signOutController);
 
 authRouter.get("/me", getCurrentUser);
 

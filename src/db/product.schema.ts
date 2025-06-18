@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   doublePrecision,
@@ -14,10 +15,14 @@ export const productTable = pgTable("products", {
   name: varchar({ length: 255 }).notNull(),
   description: text("description"),
   price: doublePrecision().notNull(),
-  inStock: boolean("in_stock").default(true),
+  stock: integer().notNull().default(100),
   category: varchar({ length: 255 }).notNull(),
   rating: real().default(0),
-  image: text("image"),
+  images: text("images")
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::text[]`),
   featured: boolean().default(false),
+  slug: text("slug"),
   createdAt: timestamp("created_at").defaultNow(),
 });

@@ -162,7 +162,7 @@ export const getCurrentUser = async (req: Request, res: Response) => {
   }
 };
 
-export const logOutController = (_: Request, res: Response) => {
+export const signOutController = (_: Request, res: Response) => {
   res.clearCookie("accessToken");
   res.status(201).json({
     success: true,
