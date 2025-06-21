@@ -13,6 +13,7 @@ export const createProduct = async (req: Request, res: Response) => {
     images,
     isFeatured,
     slug,
+    brand,
   } = req.body;
 
   try {
@@ -27,6 +28,7 @@ export const createProduct = async (req: Request, res: Response) => {
         isFeatured,
         images,
         slug,
+        brand,
       })
       .returning();
     res.status(200).json({
@@ -118,12 +120,32 @@ export const getProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, description, price, stock, category, images } = req.body;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    category,
+    // images,
+    isFeatured,
+    slug,
+    brand,
+  } = req.body;
 
   try {
     const [product] = await db
       .update(productTable)
-      .set({ name, description, price, stock, category, images })
+      .set({
+        name,
+        description,
+        price,
+        stock,
+        category,
+        // images,
+        isFeatured,
+        slug,
+        brand,
+      })
       .where(eq(productTable.id, Number(id)))
       .returning();
 

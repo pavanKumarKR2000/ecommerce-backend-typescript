@@ -1,5 +1,5 @@
 {
-  "editor.fontFamily": "monaco",
+  "editor.fontFamily": "meslo lg s",
   "editor.codeLensFontFamily": "meslo lg s",
   "editor.inlayHints.fontFamily": "meslo lg s",
   "editor.inlineSuggest.fontFamily": "meslo lg s",
@@ -12,8 +12,8 @@
   "errorLens.fontFamily": "meslo lg s",
   "markdown.preview.fontFamily": "meslo lg s",
   "terminal.integrated.fontLigatures.enabled": true,
-  "editor.fontSize": 18,
-  "terminal.integrated.fontSize": 17,
+  "editor.fontSize": 20,
+  "terminal.integrated.fontSize": 20,
   "thunder-client.editorFontSize": 17,
   "tailwindCSS.rootFontSize": 17,
   "markdown.preview.fontSize": 17,

@@ -1,4 +1,4 @@
-import { z, ZodObject } from "zod";
+import { ZodObject } from "zod";
 
 export const validateDataMiddleware = (schema: ZodObject<any, any>) => {
   return (req: any, res: any, next: any) => {

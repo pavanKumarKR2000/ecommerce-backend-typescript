@@ -15,6 +15,13 @@
       "when": 1750259957728,
       "tag": "0001_furry_typhoid_mary",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750311949669,
+      "tag": "0002_busy_namora",
+      "breakpoints": true
     }
   ]
 }

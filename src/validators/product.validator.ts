@@ -28,26 +28,40 @@ export const createProductSchema = z.object({
     required_error: "Slug is required",
     invalid_type_error: "Slug should be a string",
   }),
+  brand: z.string({
+    required_error: "Brand is required",
+    invalid_type_error: "Brand should be a string",
+  }),
 });
 
 export const updateProductSchema = z.object({
   name: z
     .string({
-      required_error: "Product name is required",
-      invalid_type_error: "Product name should be a string",
+      required_error: "Name is required",
+      invalid_type_error: "Name should be a string",
     })
-    .min(1, { message: "Product name is required" })
-    .trim()
-    .optional(),
+    .min(1, { message: "Name is required" })
+    .trim(),
   description: z.string().optional(),
   price: z
     .number({
-      required_error: "Product price is required",
-      invalid_type_error: "Product price should be a number",
+      required_error: "Price is required",
+      invalid_type_error: "Price should be a number",
     })
-    .positive({ message: "Price must be a positive number" })
-    .optional(),
-  inStock: z.boolean().optional().default(true),
-  category: productCategorySchema.optional(),
-  image: z.string().optional(),
+    .positive({ message: "Price must be a positive number" }),
+  stock: z.number({
+    required_error: "Stock is required",
+    invalid_type_error: "Stock should be a number",
+  }),
+  category: productCategorySchema,
+  // images: z.array(z.string()).optional(),
+  isFeatured: z.boolean().default(false),
+  slug: z.string({
+    required_error: "Slug is required",
+    invalid_type_error: "Slug should be a string",
+  }),
+  brand: z.string({
+    required_error: "Brand is required",
+    invalid_type_error: "Brand should be a string",
+  }),
 });

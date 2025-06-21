@@ -25,4 +25,5 @@ export const productTable = pgTable("products", {
   isFeatured: boolean("is_featured").default(false),
   slug: text("slug"),
   createdAt: timestamp("created_at").defaultNow(),
+  brand: varchar({ length: 255 }).notNull(),
 });
