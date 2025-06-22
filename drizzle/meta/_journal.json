@@ -22,6 +22,13 @@
       "when": 1750311949669,
       "tag": "0002_busy_namora",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1750585862822,
+      "tag": "0003_tiny_kulan_gath",
+      "breakpoints": true
     }
   ]
 }

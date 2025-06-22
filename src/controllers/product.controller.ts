@@ -184,13 +184,13 @@ export const deleteProduct = async (req: Request, res: Response) => {
         message: `Product with id ${id} does not exist`,
         data: null,
       });
-    } else {
-      res.status(200).json({
-        success: true,
-        message: `Product with id ${id} deleted successfully`,
-        data: null,
-      });
+      return;
     }
+    res.status(200).json({
+      success: true,
+      message: `Product with id ${id} deleted successfully`,
+      data: null,
+    });
   } catch (error) {
     res
       .status(500)
