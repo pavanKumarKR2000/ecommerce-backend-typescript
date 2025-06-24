@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { db } from "../db/index.js";
 import { productTable } from "../db/product.schema.js";
-import { eq } from "drizzle-orm";
+import { and, eq, ilike } from "drizzle-orm";
 
 export const createProduct = async (req: Request, res: Response) => {
   const {
@@ -45,22 +45,34 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const { category, page = 1, limit = 10 } = req.query;
+    const { category, query, page = 1, limit = 10 } = req.query;
     const offset = (Number(page) - 1) * Number(limit);
 
     let products;
 
-    if (!category) {
+    if (!category && !query) {
       products = await db
         .select()
         .from(productTable)
         .limit(Number(limit))
         .offset(offset);
-    } else {
+    } else if (category && !query) {
       products = await db
         .select()
         .from(productTable)
         .where(eq(productTable.category, category as string))
+        .limit(Number(limit))
+        .offset(offset);
+    } else if (category && query) {
+      products = await db
+        .select()
+        .from(productTable)
+        .where(
+          and(
+            eq(productTable.category, category as string),
+            ilike(productTable.name, `%${query}%`),
+          ),
+        )
         .limit(Number(limit))
         .offset(offset);
     }

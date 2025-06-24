@@ -25,5 +25,6 @@
   "scm.inputFontSize": 17,
   "debug.console.fontSize": 17,
   "editor.suggestLineHeight": 0,
-  "editor.fontLigatures": "'calt','liga','zero','ss07','ss04','ss08'"
+  "editor.fontLigatures": "'calt','liga','zero','ss07','ss04','ss08'",
+  "terminal.integrated.fontLigatures.featureSettings": "\"calt\" on,'zero','ss07','ss04','ss08'"
 }
