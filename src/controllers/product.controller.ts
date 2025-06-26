@@ -48,7 +48,7 @@ export const getProducts = async (req: Request, res: Response) => {
     const { category, query, page = 1, limit = 10 } = req.query;
     const offset = (Number(page) - 1) * Number(limit);
 
-    let products;
+    let products: any[] = [];
 
     if (!category && !query) {
       products = await db
@@ -73,6 +73,13 @@ export const getProducts = async (req: Request, res: Response) => {
             ilike(productTable.name, `%${query}%`),
           ),
         )
+        .limit(Number(limit))
+        .offset(offset);
+    } else if (!category && query) {
+      products = await db
+        .select()
+        .from(productTable)
+        .where(and(ilike(productTable.name, `%${query}%`)))
         .limit(Number(limit))
         .offset(offset);
     }
